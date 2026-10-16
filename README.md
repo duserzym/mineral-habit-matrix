@@ -2,23 +2,57 @@
 
 **Live site:** https://duserzym.github.io/mineral-habit-matrix/
 
-This repo generates grids ("habit matrices") of idealized 3D crystal geometries for petrochronometer and
-thermochronometer minerals. Zircon follows the Pupin (1980) typology. The other minerals use habit
-series taken from the morphology and grain-geometry literature that is cited on the site.
+This repo generates grids ("habit matrices") of idealized 3D crystal geometries for 41 rock-forming,
+accessory and ore minerals (720 crystals). Zircon follows the Pupin (1980) typology. The other
+minerals use habit series taken from the morphology and grain-geometry literature that is cited on the site.
+Every face index is given in the structural cell. Where classical morphology used a different cell (for example
+calcite, staurolite, cordierite, vesuvianite, orthopyroxene, gypsum and barite), the conversion was checked
+against Dana's (1892) interfacial angles. Minerals without robust habit data (for example wollastonite, chlorite,
+lawsonite and pyrrhotite) were left out.
 
-| Mineral | Matrix | Cells | Chronometers |
-|---|---|---|---|
-| Zircon | Pupin (1980) typology, I.A × I.T (64 subtypes) | 64 | U–Pb, (U–Th)/He, FT, Lu–Hf |
-| Xenotime | {100}/{110} prism × elongation, {101} dipyramid | 12 | U–Th–Pb |
-| Apatite | termination ({0001} ↔ {10-11}) × elongation | 20 | (U–Th)/He, FT, U–Pb |
-| Monazite | {100} tabularity × elongation along b | 16 | U–Th–Pb, (U–Th)/He |
-| Titanite | envelope (n{110}+c{001}) → m{-111} prismatic × {001} tabular (C2/c) | 16 | U–Pb, (U–Th)/He |
-| Rutile | Pupin-style {110}/{100} prism × {101}/{111} termination | 16 | U–Pb, Zr-in-rutile |
-| Garnet | {110} ↔ {211} × {321} modifier | 15 | Sm–Nd, Lu–Hf |
-| Amphibole | {110}/{010} prism × elongation | 16 | ⁴⁰Ar/³⁹Ar |
-| Mica | {110}/{010} plate outline × thickness | 16 | ⁴⁰Ar/³⁹Ar, Rb–Sr |
-| Magnetite | octahedron {111} ↔ dodecahedron {110} × {100}/{311} modifier | 15 | (U–Th)/He, paleomagnetism |
-| Hematite | rhombohedral → specular plates × edge forms | 12 | (U–Th)/He, paleomagnetism |
+| Group | Mineral | Matrix | Cells | Chronometers / uses |
+|---|---|---|---|---|
+| Accessory chronometers | Zircon | Pupin (1980) typology grid | 64 | U–Pb, (U–Th)/He, fission track, Lu–Hf, Ti-in-zircon |
+| Accessory chronometers | Xenotime | Dipyramid → prism | 12 | U–Th–Pb, diagenetic/hydrothermal dating, monazite–xenotime thermometry |
+| Accessory chronometers | Apatite | Termination × elongation | 20 | (U–Th)/He, fission track, U–Pb, Sm–Nd |
+| Accessory chronometers | Monazite | Tabular on {100} × elongation along b | 16 | U–Th–Pb (EPMA, LA-ICP-MS, SIMS), (U–Th)/He |
+| Accessory chronometers | Titanite | Envelope → prismatic → tabular | 16 | U–Pb, (U–Th)/He, Zr-in-titanite thermometry |
+| Accessory chronometers | Rutile | Prism × termination grid | 16 | U–Pb, Zr-in-rutile thermometry, (U–Th)/He |
+| Framework silicates | Quartz | Prism length × rhombohedron balance | 25 | Ti-in-quartz thermometry; OSL/ESR dating; cosmogenic nuclides |
+| Framework silicates | K-feldspar | Flattening on (010) × elongation axis | 25 | ⁴⁰Ar/³⁹Ar multi-diffusion-domain (MDD) thermochronology; Pb isotopes |
+| Framework silicates | Plagioclase | (010) tabularity × elongation along [100] | 20 | Diffusion chronometry (Mg, Sr); crystal size distributions; ⁴⁰Ar/³⁹Ar |
+| Framework silicates | Nepheline | Prism length × prism modification | 20 | Composition as a crystallization thermometer |
+| Framework silicates | Leucite | Icositetrahedron with cube and dodecahedron | 16 | ⁴⁰Ar/³⁹Ar (K-rich volcanic rocks); crystal size distributions |
+| Framework silicates | Sodalite | Dodecahedron with cube and tetrahedron | 16 | — |
+| Orthosilicates | Olivine | Tabular ↔ elongate × form complexity | 20 | Fe–Mg, Ni, Ca diffusion chronometry (magma timescales) |
+| Orthosilicates | Garnet | Dodecahedron ↔ trapezohedron | 15 | Sm–Nd, Lu–Hf, U–Pb, diffusion speedometry |
+| Orthosilicates | Kyanite | Blade elongation × flattening on (100) | 16 | Al₂SiO₅ polymorph thermobarometry; inclusion barometry |
+| Orthosilicates | Andalusite | Termination × elongation | 16 | Al₂SiO₅ polymorph thermobarometry (contact aureoles) |
+| Orthosilicates | Sillimanite | Prism zone × elongation | 16 | Al₂SiO₅ polymorph thermobarometry |
+| Orthosilicates | Staurolite | Prism section × elongation | 16 | Metapelite thermobarometry (index mineral) |
+| Sorosilicates | Epidote | Prism zone × elongation along b | 16 | U–Pb (hydrothermal veins); Sr, Pb isotopes |
+| Sorosilicates | Zoisite | Prism zone × elongation along b | 9 | Sr–Pb isotopes; HP metamorphism (eclogite) petrology |
+| Sorosilicates | Vesuvianite | Prism length × termination | 15 | Skarn and rodingite petrology |
+| Ring silicates | Tourmaline | Prism section × elongation (hemimorphic) | 16 | B-isotope and sector-zoning thermometry; provenance |
+| Ring silicates | Cordierite | Pseudo-hexagonal prism × elongation | 16 | Channel H₂O/CO₂ as a fluid record; low-P metamorphic thermobarometry |
+| Chain silicates | Orthopyroxene | Prism cross-section × elongation | 20 | Fe–Mg diffusion chronometry; two-pyroxene thermometry |
+| Chain silicates | Clinopyroxene | Prism cross-section × elongation | 16 | Fe–Mg diffusion chronometry; sector-zoning records of ascent |
+| Chain silicates | Amphibole | Prism cross-section × elongation | 16 | ⁴⁰Ar/³⁹Ar, K–Ar |
+| Sheet silicates | Biotite | Plate outline × thickness | 16 | ⁴⁰Ar/³⁹Ar, K–Ar, Rb–Sr |
+| Sheet silicates | Muscovite | Plate outline × thickness | 16 | ⁴⁰Ar/³⁹Ar, K–Ar, Rb–Sr |
+| Carbonates | Calcite | Prism length × termination | 20 | U–Pb carbonate dating; clumped isotopes; δ¹⁸O, δ¹³C |
+| Carbonates | Dolomite | Basal development × rhombohedron | 12 | U–Pb carbonate dating; clumped isotopes; diagenetic thermometry |
+| Carbonates | Aragonite | Prism length × termination | 16 | U-series dating (corals, speleothems); δ¹⁸O, Sr/Ca, clumped isotopes |
+| Sulfates | Gypsum | Elongation × termination | 16 | Sr, S and O isotopes of evaporites; fluid inclusions |
+| Sulfates | Anhydrite | Elongation along a × tabularity on (010) | 9 | Sr and S isotopes (seawater–hydrothermal mixing) |
+| Sulfates | Barite | (001) tabularity × tablet outline | 16 | Marine barite Sr and S isotopes; export-productivity proxy |
+| Halides | Halite | Cube ↔ octahedron × dodecahedron | 15 | Fluid-inclusion paleothermometry; evaporite Br/Cl |
+| Halides | Fluorite | Cube ↔ octahedron × modifier | 20 | Sm–Nd dating of mineralization; REE fluid tracer |
+| Oxides | Magnetite | Octahedron ↔ dodecahedron | 15 | (U–Th)/He; remanence carrier in paleomagnetism |
+| Oxides | Hematite | Rhombohedral → specular plates | 12 | (U–Th)/He, (U–Th)/Ne; remanence carrier in paleomagnetism |
+| Oxides | Spinel / chromite | Octahedron with dodecahedron and cube | 12 | Cr# as a melting and tectonic-setting indicator |
+| Oxides | Ilmenite | Tabularity × lateral forms | 16 | Fe–Ti two-oxide thermometry and oxybarometry; remanence (hemo-ilmenite) |
+| Sulfides | Pyrite | Cube ↔ octahedron × pyritohedron | 20 | Re–Os dating; trace-element (Au, As) zoning; S isotopes |
 
 Every mineral page lists its literature: typology and morphology papers, plus the grain-geometry papers
 used in α-ejection (F<sub>T</sub>) and diffusion-domain modelling. `scripts/check_dois.py` checks every DOI
@@ -54,6 +88,8 @@ habitmatrix/            Python generator (numpy + scipy only)
   build.py              builds everything
 models/stl/<mineral>/   one STL per matrix cell
 models/step/<mineral>/  one STEP per matrix cell (faces are named by their Miller index)
+scripts/make_icon.py    draws the zircon icon (site/icon.svg) from the generator's own geometry
+scripts/check_dois.py   checks every reference DOI against Crossref
 site/                   static three.js site (deployed to GitHub Pages with models/)
   geom.js               browser half-space clipper (same construction as the generator)
   views.js              three.js rendering: grid of scissor viewports, orbit views, arrows
@@ -92,7 +128,7 @@ freecadcmd -c "exec(open('scripts/validate_models.py').read())"   # run from the
 ```
 
 FreeCAD (OpenCASCADE) reads every STEP file as one valid, closed solid of unit volume, and every STL file
-is a closed, manifold mesh of the same volume.
+is a closed, manifold mesh of the same volume (720/720 pass).
 
 ## Caveats
 

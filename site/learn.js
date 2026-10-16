@@ -327,7 +327,8 @@ export class Learn {
     this.view.set(def.scene(), this.R * (def.fitR || 1.15));
     const li = document.querySelector(`#learn-steps .step[data-i="${i}"]`);
     def.bind?.(li.querySelector('.body'));
-    if (prevStep !== i && li.getBoundingClientRect().top < 70) li.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    const narrow = matchMedia('(max-width: 999px)').matches;
+    if (prevStep !== i && (narrow || li.getBoundingClientRect().top < 70)) li.scrollIntoView({ block: 'start', behavior: 'smooth' });
   }
 
   refresh() {

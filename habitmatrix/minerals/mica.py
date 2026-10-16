@@ -45,7 +45,7 @@ def spec() -> dict:
                 "default": (i, j) == (1, 2), "distances": d, "t": t,
             })
     return {
-        "id": ID, "name": "Mica", "crystal": mi, "formula": "K(Mg,Fe)₃AlSi₃O₁₀(OH)₂",
+        "id": ID, "name": "Biotite", "group": "Sheet silicates", "crystal": mi, "formula": "K(Mg,Fe)₃AlSi₃O₁₀(OH)₂",
         "chronometers": "⁴⁰Ar/³⁹Ar, K–Ar, Rb–Sr",
         "system": "Monoclinic", "setting": "orthohexagonal pseudo-cell (a = b/√3, β = 90°)",
         "lattice_source": "orthohexagonal pseudo-cell from biotite-1M (Handbook of Mineralogy)",

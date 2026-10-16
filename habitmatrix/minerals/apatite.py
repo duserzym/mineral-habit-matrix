@@ -48,7 +48,7 @@ def spec() -> dict:
                 "default": (i, j) == (2, 2), "distances": d, "t": t,
             })
     return {
-        "id": ID, "name": "Apatite", "crystal": ap, "formula": "Ca₅(PO₄)₃(F,Cl,OH)",
+        "id": ID, "name": "Apatite", "group": "Accessory chronometers", "crystal": ap, "formula": "Ca₅(PO₄)₃(F,Cl,OH)",
         "chronometers": "(U–Th)/He, fission track, U–Pb, Sm–Nd",
         "system": "Hexagonal", "setting": "P6₃/m (fluorapatite)",
         "lattice_source": "Hughes et al. (1989)",

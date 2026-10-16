@@ -60,7 +60,7 @@ def spec() -> dict:
                 "default": (i, j) == (2, 0), "distances": d, "t": t,
             })
     return {
-        "id": ID, "name": "Hematite", "crystal": hm, "formula": "α-Fe₂O₃",
+        "id": ID, "name": "Hematite", "group": "Oxides", "crystal": hm, "formula": "α-Fe₂O₃",
         "chronometers": "(U–Th)/He, (U–Th)/Ne; remanence carrier in paleomagnetism",
         "system": "Trigonal", "setting": "R3̄c, obverse hexagonal axes",
         "lattice_source": "Maslen et al. (1994)",

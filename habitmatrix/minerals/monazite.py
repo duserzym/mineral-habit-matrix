@@ -49,7 +49,7 @@ def spec() -> dict:
                 "default": (i, j) == (2, 1), "distances": d, "t": t,
             })
     return {
-        "id": ID, "name": "Monazite", "crystal": mz, "formula": "(Ce,La,Nd,Th)PO₄",
+        "id": ID, "name": "Monazite", "group": "Accessory chronometers", "crystal": mz, "formula": "(Ce,La,Nd,Th)PO₄",
         "chronometers": "U–Th–Pb (EPMA, LA-ICP-MS, SIMS), (U–Th)/He",
         "system": "Monoclinic", "setting": "P2₁/n",
         "lattice_source": "Handbook of Mineralogy; Ni et al. (1995)",

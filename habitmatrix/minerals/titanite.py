@@ -50,7 +50,7 @@ def spec() -> dict:
                 "default": (i, j) == (1, 0), "distances": d, "t": 0.0,
             })
     return {
-        "id": ID, "name": "Titanite", "crystal": tt, "formula": "CaTiSiO₅",
+        "id": ID, "name": "Titanite", "group": "Accessory chronometers", "crystal": tt, "formula": "CaTiSiO₅",
         "chronometers": "U–Pb, (U–Th)/He, Zr-in-titanite thermometry",
         "system": "Monoclinic", "setting": "C2/c (a↔c of P2₁/a)",
         "lattice_source": "Speer &amp; Gibbs (1976)",

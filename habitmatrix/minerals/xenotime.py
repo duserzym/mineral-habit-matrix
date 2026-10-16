@@ -42,7 +42,7 @@ def spec() -> dict:
                 "default": (i, j) == (1, 0), "distances": d, "t": t,
             })
     return {
-        "id": ID, "name": "Xenotime", "crystal": xt, "formula": "YPO₄",
+        "id": ID, "name": "Xenotime", "group": "Accessory chronometers", "crystal": xt, "formula": "YPO₄",
         "chronometers": "U–Th–Pb, diagenetic/hydrothermal dating, monazite–xenotime thermometry",
         "system": "Tetragonal", "setting": "I4₁/amd (zircon structure)",
         "lattice_source": "Handbook of Mineralogy (mid-range)",

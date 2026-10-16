@@ -35,6 +35,7 @@ applyTheme();
 
 // ------------------------------------------------------------------ views
 const grid = new GridView($('#stage'), $('#matrix-scroll'));
+const atlasGrid = new GridView($('#atlas-stage'), $('#atlas-stage'));
 const sheetView = new SoloView($('#sheet-view'));
 const learn = new Learn({ loadData, index: () => state.index });
 let DEFAULT_Q = viewQ();
@@ -57,6 +58,12 @@ function crystalFor(cell, data) {
 async function route() {
   const parts = location.hash.slice(1).split('/').filter(Boolean).map(decodeURIComponent);
   const valid = (id) => state.index.some((m) => m.id === id);
+  closeMenu();
+  if (!parts.length || parts[0] === 'atlas') {
+    showPage('atlas');
+    closeSheet(true);
+    return;
+  }
   if (parts[0] === 'learn') {
     showPage('learn');
     closeSheet(true);
@@ -77,10 +84,11 @@ function showPage(p) {
   state.page = p;
   $('#page-matrix').hidden = p !== 'matrix';
   $('#page-learn').hidden = p !== 'learn';
+  $('#page-atlas').hidden = p !== 'atlas';
   $('#learn-tab').classList.toggle('active', p === 'learn');
-  for (const b of document.querySelectorAll('.tab')) {
-    b.setAttribute('aria-selected', String(p === 'matrix' && b.dataset.id === state.data?.id));
-  }
+  $('#atlas-link').classList.toggle('active', p === 'atlas');
+  $('#menu-current').textContent = p === 'matrix' && state.data ? state.data.name : 'Minerals';
+  renderTabs(p === 'matrix' ? state.data : null);
   if (changed) window.scrollTo(0, 0);
 }
 
@@ -88,7 +96,6 @@ function showPage(p) {
 async function loadMineral(id) {
   const data = await loadData(id);
   state.data = data;
-  document.querySelector(`.tab[data-id="${id}"]`)?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
   DEFAULT_Q = viewQ(data.view?.tilt, data.view?.turn);
   gridQ.copy(DEFAULT_Q);
   spinAngle = 0;
@@ -123,7 +130,7 @@ function buildMatrix(data) {
   const M = data.matrix;
   const nr = M.rows.length, nc = M.cols.length;
   const el = $('#matrix');
-  el.style.gridTemplateColumns = `22px max-content repeat(${nc}, minmax(92px, 1fr))`;
+  el.style.gridTemplateColumns = `var(--axis-col, 22px) max-content repeat(${nc}, minmax(var(--cell-min, 92px), 1fr))`;
   el.style.maxWidth = `${nc * 230 + 240}px`;
   let html = `<div></div><div></div><div class="axis-title" style="grid-column: 3 / span ${nc}">${esc(M.col_title)}</div>`;
   html += `<div></div><div></div>${M.cols.map((c) => `<div class="hdr"><b>${esc(c.label)}</b>${c.detail ? `<span>${esc(c.detail)}</span>` : ''}</div>`).join('')}`;
@@ -145,6 +152,8 @@ function buildMatrix(data) {
     return { data: cd, el: cellEl, view: cellEl.querySelector('.view'), obj: crystalFor(cd, data) };
   });
   grid.setItems(state.cells.map((c) => ({ el: c.view, obj: c.obj })));
+  const rowHdr = el.querySelector('.hdr.row');
+  grid.stickyLeft = () => rowHdr?.getBoundingClientRect().right;
   for (const c of state.cells) {
     c.el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); select(c); } });
   }
@@ -209,6 +218,24 @@ function closeSheet(immediate = false) {
 }
 
 $('#sheet-close').onclick = () => { location.hash = `#${state.data.id}`; };
+// phones: swipe the inspector sheet down to close it
+{
+  let y0 = null;
+  const sh = $('#sheet');
+  sh.addEventListener('touchstart', (e) => { y0 = e.target.closest('.sheet-view') ? null : e.touches[0].clientY; }, { passive: true });
+  sh.addEventListener('touchmove', (e) => {
+    if (y0 == null || sh.scrollTop > 0) return;
+    const dy = e.touches[0].clientY - y0;
+    if (dy > 0) sh.style.transform = `translateY(${dy}px)`;
+  }, { passive: true });
+  sh.addEventListener('touchend', (e) => {
+    if (y0 == null) return;
+    const dy = e.changedTouches[0].clientY - y0;
+    sh.style.transform = '';
+    y0 = null;
+    if (dy > 90) location.hash = `#${state.data.id}`;
+  });
+}
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && $('#sheet').classList.contains('open')) location.hash = `#${state.data.id}`;
 });
@@ -269,6 +296,82 @@ function setupDrag() {
   window.addEventListener('pointercancel', () => { start = null; host.classList.remove('dragging'); });
 }
 
+// ------------------------------------------------------------------ navigation
+const groupsOf = () => {
+  const g = new Map();
+  for (const m of state.index) { if (!g.has(m.group)) g.set(m.group, []); g.get(m.group).push(m); }
+  return g;
+};
+
+function renderTabs(current) {
+  const tabs = $('#tabs');
+  if (!current) { tabs.innerHTML = ''; return; }
+  const sibs = state.index.filter((m) => m.group === current.group);
+  tabs.innerHTML = sibs.map((m) => `<button class="tab" type="button" role="tab" data-id="${esc(m.id)}" aria-selected="${m.id === current.id}">${esc(m.name)}</button>`).join('');
+  for (const b of tabs.querySelectorAll('.tab')) b.onclick = () => { location.hash = `#${b.dataset.id}`; };
+  tabs.querySelector('[aria-selected="true"]')?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+}
+
+function buildMenu() {
+  $('#menu-groups').innerHTML = [...groupsOf()].map(([g, ms]) => `<div class="menu-group"><h4>${esc(g)}</h4>${ms.map((m) =>
+    `<button class="menu-item" type="button" role="menuitem" data-id="${esc(m.id)}" data-q="${esc(`${m.name} ${m.formula} ${m.group} ${m.chronometers} ${m.system}`.toLowerCase())}">${esc(m.name)}<small>${esc(m.formula)}</small></button>`).join('')}</div>`).join('');
+  for (const b of document.querySelectorAll('.menu-item')) b.onclick = () => { location.hash = `#${b.dataset.id}`; closeMenu(); };
+  $('#menu-btn').onclick = (e) => { e.stopPropagation(); $('#mineral-menu').hidden ? openMenu() : closeMenu(); };
+  $('#menu-search').oninput = (e) => {
+    const q = e.target.value.trim().toLowerCase();
+    for (const b of document.querySelectorAll('.menu-item')) b.hidden = q && !b.dataset.q.includes(q);
+    for (const g of document.querySelectorAll('.menu-group')) g.hidden = ![...g.querySelectorAll('.menu-item')].some((b) => !b.hidden);
+  };
+  $('#menu-search').onkeydown = (e) => {
+    if (e.key === 'Enter') document.querySelector('.menu-item:not([hidden])')?.click();
+  };
+  document.addEventListener('click', (e) => { if (!e.target.closest('#mineral-menu, #menu-btn')) closeMenu(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+}
+
+function openMenu() {
+  const m = $('#mineral-menu');
+  m.hidden = false;
+  $('#menu-btn').setAttribute('aria-expanded', 'true');
+  for (const b of document.querySelectorAll('.menu-item')) b.classList.toggle('current', state.page === 'matrix' && b.dataset.id === state.data?.id);
+  $('#menu-search').value = '';
+  $('#menu-search').dispatchEvent(new Event('input'));
+  $('#menu-search').focus();
+}
+
+function closeMenu() {
+  $('#mineral-menu').hidden = true;
+  $('#menu-btn').setAttribute('aria-expanded', 'false');
+}
+
+async function buildAtlas() {
+  const atlas = await (await fetch('data/atlas.json', { cache: 'no-cache' })).json();
+  $('#atlas-groups').innerHTML = [...groupsOf()].map(([g, ms]) => `<section class="atlas-group"><h2>${esc(g)}</h2><div class="atlas-cards">${ms.map((m) =>
+    `<a class="atlas-card glass" href="#${esc(m.id)}" data-id="${esc(m.id)}" data-q="${esc(`${m.name} ${m.formula} ${m.group} ${m.chronometers} ${m.system} ${m.matrix_title}`.toLowerCase())}">
+      <span class="n">${m.ncells}</span><div class="view"></div><h3>${esc(m.name)}</h3>
+      <div class="f">${esc(m.formula)} · ${esc(m.system)}</div>${m.chronometers ? `<div class="c">${esc(m.chronometers)}</div>` : ''}</a>`).join('')}</div></section>`).join('');
+  const items = [];
+  for (const card of document.querySelectorAll('.atlas-card')) {
+    const pv = atlas[card.dataset.id];
+    if (!pv) continue;
+    const pseudo = { forms: pv.forms.map((f) => ({ ...f, label: f.key })), mono_color: pv.mono_color };
+    const obj = crystalObject(facesFromJSON(pv.geometry, pseudo), pseudo, { edges: true });
+    items.push({ el: card.querySelector('.view'), obj, q: viewQ(pv.view?.tilt, pv.view?.turn) });
+  }
+  atlasGrid.setItems(items);
+  const count = () => {
+    const n = [...document.querySelectorAll('.atlas-card')].filter((c) => !c.hidden).length;
+    $('#atlas-count').textContent = `${n} minerals · ${state.index.reduce((s, m) => s + m.ncells, 0)} crystals`;
+  };
+  $('#atlas-search').oninput = (e) => {
+    const q = e.target.value.trim().toLowerCase();
+    for (const c of document.querySelectorAll('.atlas-card')) c.hidden = q && !c.dataset.q.includes(q);
+    for (const g of document.querySelectorAll('.atlas-group')) g.hidden = ![...g.querySelectorAll('.atlas-card')].some((c) => !c.hidden);
+    count();
+  };
+  count();
+}
+
 // ------------------------------------------------------------------ loop
 const spinQ = new THREE.Quaternion();
 const Y = new THREE.Vector3(0, 1, 0);
@@ -282,6 +385,11 @@ function loop(t) {
     grid.q.copy(gridQ).multiply(spinQ);
     grid.frame();
     if ($('#sheet').classList.contains('open')) sheetView.frame();
+  } else if (state.page === 'atlas') {
+    if (state.spin) spinAngle += dt * 0.45;
+    spinQ.setFromAxisAngle(Y, spinAngle);
+    for (const it of atlasGrid.items) it.obj.quaternion.copy(it.q).multiply(spinQ);
+    atlasGrid.frame();
   } else {
     learn.frame();
   }
@@ -290,9 +398,8 @@ function loop(t) {
 
 async function init() {
   state.index = await (await fetch('data/index.json', { cache: 'no-cache' })).json();
-  $('#tabs').innerHTML = state.index.map((m) =>
-    `<button class="tab" type="button" role="tab" data-id="${esc(m.id)}">${esc(m.name)}</button>`).join('');
-  for (const b of document.querySelectorAll('.tab')) b.onclick = () => { location.hash = `#${b.dataset.id}`; };
+  buildMenu();
+  await buildAtlas();
   setupDrag();
   window.addEventListener('hashchange', () => route().catch(console.error));
   await route();

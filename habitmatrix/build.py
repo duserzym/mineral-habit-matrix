@@ -15,7 +15,7 @@ import numpy as np
 
 from .export import poly_to_json, write_step, write_stl
 from .habit import Crystal
-from .minerals import MINERALS
+from .minerals import GROUP_ORDER, MINERALS
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE_DATA = ROOT / "site" / "data"
@@ -68,6 +68,11 @@ def build_mineral(spec: dict) -> dict:
         shutil.rmtree(d, ignore_errors=True)
         d.mkdir(parents=True)
 
+    ids = [c["id"] for c in spec["cells"]]
+    clash = {i for i in ids if sum(j.lower() == i.lower() for j in ids) > 1}
+    if clash:  # file names must stay unique on case-insensitive file systems (macOS, Windows)
+        raise ValueError(f"{mid}: cell ids differ only by case: {sorted(clash)}")
+
     cells_out = []
     for cell in spec["cells"]:
         t = cell.get("t", 0.0)
@@ -100,6 +105,7 @@ def build_mineral(spec: dict) -> dict:
     data = {
         "id": mid,
         "name": spec["name"],
+        "group": spec.get("group", ""),
         "formula": spec.get("formula", ""),
         "chronometers": spec.get("chronometers", ""),
         "system": spec["system"],
@@ -126,24 +132,43 @@ def build_mineral(spec: dict) -> dict:
         "cells": cells_out,
     }
     (SITE_DATA / f"{mid}.json").write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")))
-    return {"id": mid, "name": spec["name"], "file": f"{mid}.json", "ncells": len(cells_out),
-            "chronometers": spec.get("chronometers", "")}
+    default = next((c for c in cells_out if c.get("default")), cells_out[len(cells_out) // 2])
+    return {"id": mid, "name": spec["name"], "group": spec.get("group", ""), "file": f"{mid}.json",
+            "ncells": len(cells_out), "formula": spec.get("formula", ""),
+            "chronometers": spec.get("chronometers", ""), "system": spec["system"],
+            "matrix_title": spec["matrix"]["title"],
+            # a representative crystal for the atlas page
+            "preview": {"id": default["id"], "geometry": default["geometry"],
+                        "forms": [{"key": f["key"], "color": f["color"]} for f in data["forms"]],
+                        "mono_color": data["mono_color"], "view": data["view"]}}
+
+
+def _build_one(mod_name: str) -> dict:
+    import importlib
+    mod = importlib.import_module(f"habitmatrix.minerals.{mod_name}")
+    return build_mineral(mod.spec())
 
 
 def main(argv=None):
+    from concurrent.futures import ProcessPoolExecutor
+
     argv = sys.argv[1:] if argv is None else argv
     SITE_DATA.mkdir(parents=True, exist_ok=True)
     index_path = SITE_DATA / "index.json"
     index = {m["id"]: m for m in json.loads(index_path.read_text())} if index_path.exists() else {}
-    order = [m.ID for m in MINERALS]
-    for mod in MINERALS:
-        if argv and mod.ID not in argv:
-            continue
-        spec = mod.spec()
-        index[spec["id"]] = build_mineral(spec)
-        print(f"{spec['id']:10s} {index[spec['id']]['ncells']:3d} habits")
-    ordered = [index[i] for i in order if i in index]
+    todo = [m for m in MINERALS if not argv or m.ID in argv]
+    with ProcessPoolExecutor() as pool:
+        for mod, entry in zip(todo, pool.map(_build_one, [m.__name__.rsplit(".", 1)[1] for m in todo])):
+            index[entry["id"]] = entry
+            print(f"{entry['id']:12s} {entry['ncells']:3d} habits")
+    ids = [m.ID for m in MINERALS]
+    rank = {g: i for i, g in enumerate(GROUP_ORDER)}
+    ordered = sorted((index[i] for i in ids if i in index), key=lambda e: (rank.get(e["group"], 99), ids.index(e["id"])))
+    previews = {e["id"]: e.pop("preview", None) for e in ordered}
+    old = json.loads((SITE_DATA / "atlas.json").read_text()) if (SITE_DATA / "atlas.json").exists() else {}
+    atlas = {i: previews[i] or old.get(i) for i in previews}
     index_path.write_text(json.dumps(ordered, ensure_ascii=False, indent=1))
+    (SITE_DATA / "atlas.json").write_text(json.dumps(atlas, ensure_ascii=False, separators=(",", ":")))
 
 
 if __name__ == "__main__":

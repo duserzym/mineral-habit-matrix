@@ -104,17 +104,47 @@ def _mirror(normal):
     return np.eye(3) - 2 * np.outer(n, n)
 
 
+_A1 = [3**0.5 / 2, -0.5, 0]  # hexagonal a1 in this frame (c along z, b along y)
+_I = -np.eye(3)
+_X, _Y, _Z, _XY, _111 = [1, 0, 0], [0, 1, 0], [0, 0, 1], [1, 1, 0], [1, 1, 1]
+
+# Generators of the 32 crystallographic point groups in the Cartesian frame above.
+# Monoclinic: b-unique (2-fold along y).  Tetragonal/hexagonal/trigonal: main axis along z.
+# Trigonal and hexagonal secondary elements follow the "...m1 / ...21" convention: 2-fold
+# axes along, and mirror normals parallel to, the a axes.
 _GENERATORS = {
-    "-1": [-np.eye(3)],
-    "2/m": [_rot([0, 1, 0], 180), -np.eye(3)],  # b-unique
-    "mmm": [_rot([0, 0, 1], 180), _rot([0, 1, 0], 180), -np.eye(3)],
-    "4/mmm": [_rot([0, 0, 1], 90), _mirror([1, 0, 0]), -np.eye(3)],
-    "6/m": [_rot([0, 0, 1], 60), -np.eye(3)],
-    "6/mmm": [_rot([0, 0, 1], 60), _mirror([1, 0, 0]), -np.eye(3)],
-    # -3 2/m 1 (hexagonal axes): mirrors normal to the a-axes.  In this frame a1 lies at
-    # -30° from x (c along z, b along y), so the mirror normal is (cos -30°, sin -30°, 0).
-    "-3m": [_rot([0, 0, 1], 120), _mirror([3**0.5 / 2, -0.5, 0]), -np.eye(3)],
-    "m-3m": [_rot([0, 0, 1], 90), _rot([1, 1, 1], 120), -np.eye(3)],
+    "1": [],
+    "-1": [_I],
+    "2": [_rot(_Y, 180)],
+    "m": [_mirror(_Y)],
+    "2/m": [_rot(_Y, 180), _I],
+    "222": [_rot(_Z, 180), _rot(_Y, 180)],
+    "mm2": [_rot(_Z, 180), _mirror(_X)],
+    "mmm": [_rot(_Z, 180), _rot(_Y, 180), _I],
+    "4": [_rot(_Z, 90)],
+    "-4": [_I @ _rot(_Z, 90)],
+    "4/m": [_rot(_Z, 90), _I],
+    "422": [_rot(_Z, 90), _rot(_X, 180)],
+    "4mm": [_rot(_Z, 90), _mirror(_X)],
+    "-42m": [_I @ _rot(_Z, 90), _rot(_X, 180)],
+    "4/mmm": [_rot(_Z, 90), _mirror(_X), _I],
+    "3": [_rot(_Z, 120)],
+    "-3": [_rot(_Z, 120), _I],
+    "32": [_rot(_Z, 120), _rot(_A1, 180)],
+    "3m": [_rot(_Z, 120), _mirror(_A1)],
+    "-3m": [_rot(_Z, 120), _mirror(_A1), _I],
+    "6": [_rot(_Z, 60)],
+    "-6": [_I @ _rot(_Z, 60)],
+    "6/m": [_rot(_Z, 60), _I],
+    "622": [_rot(_Z, 60), _rot(_A1, 180)],
+    "6mm": [_rot(_Z, 60), _mirror(_A1)],
+    "-6m2": [_I @ _rot(_Z, 60), _mirror(_A1)],
+    "6/mmm": [_rot(_Z, 60), _mirror(_A1), _I],
+    "23": [_rot(_Z, 180), _rot(_111, 120)],
+    "m-3": [_rot(_Z, 180), _rot(_111, 120), _I],
+    "432": [_rot(_Z, 90), _rot(_111, 120)],
+    "-43m": [_I @ _rot(_Z, 90), _rot(_111, 120)],
+    "m-3m": [_rot(_Z, 90), _rot(_111, 120), _I],
 }
 
 

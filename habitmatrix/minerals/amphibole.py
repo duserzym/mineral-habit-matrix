@@ -44,7 +44,7 @@ def spec() -> dict:
                 "default": (i, j) == (1, 2), "distances": d, "t": t,
             })
     return {
-        "id": ID, "name": "Amphibole", "crystal": am, "formula": "Ca₂(Mg,Fe)₄Al(Si₇Al)O₂₂(OH)₂",
+        "id": ID, "name": "Amphibole", "group": "Chain silicates", "crystal": am, "formula": "Ca₂(Mg,Fe)₄Al(Si₇Al)O₂₂(OH)₂",
         "chronometers": "⁴⁰Ar/³⁹Ar, K–Ar",
         "system": "Monoclinic", "setting": "C2/m (hornblende)",
         "lattice_source": "Handbook of Mineralogy (magnesiohornblende)",

@@ -45,7 +45,7 @@ def spec() -> dict:
                 "default": (i, j) == (1, 0), "distances": d, "t": 0.0,
             })
     return {
-        "id": ID, "name": "Magnetite", "crystal": mt, "formula": "Fe₃O₄",
+        "id": ID, "name": "Magnetite", "group": "Oxides", "crystal": mt, "formula": "Fe₃O₄",
         "chronometers": "(U–Th)/He; remanence carrier in paleomagnetism",
         "system": "Cubic", "setting": "Fd3̄m (spinel)",
         "lattice_source": "Fleet (1981)",

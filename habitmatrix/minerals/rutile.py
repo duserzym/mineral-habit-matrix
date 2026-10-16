@@ -46,7 +46,7 @@ def spec() -> dict:
                 "default": (i, j) == (1, 1), "distances": d, "t": t,
             })
     return {
-        "id": ID, "name": "Rutile", "crystal": rt, "formula": "TiO₂",
+        "id": ID, "name": "Rutile", "group": "Accessory chronometers", "crystal": rt, "formula": "TiO₂",
         "chronometers": "U–Pb, Zr-in-rutile thermometry, (U–Th)/He",
         "system": "Tetragonal", "setting": "P4₂/mnm",
         "lattice_source": "Handbook of Mineralogy",

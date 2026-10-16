@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Mineral Habit Matrix</title>
 <meta name="description" content="Grids of idealized 3D crystal habits for zircon (Pupin 1980 typology) and other petrochronometer and thermochronometer minerals, with a step-by-step guide to building them from crystallography and STL/STEP downloads.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 24 9v14l-8 7-8-7V9z' fill='%23b4652d'/%3E%3Cpath d='M16 2 24 9 16 12 8 9z' fill='%23e3a36f'/%3E%3C/svg%3E">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -21,17 +21,42 @@
 <div class="backdrop" aria-hidden="true"></div>
 
 <nav class="topbar glass" aria-label="Main">
-  <a class="brand" href="#zircon" aria-label="Mineral Habit Matrix home">
-    <svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true"><path d="M16 2 24 9v14l-8 7-8-7V9z" fill="#b4652d"/><path d="M16 2 24 9 16 12 8 9z" fill="#e3a36f"/><path d="M16 12v18l8-7V9z" fill="#8a4a20" opacity=".55"/></svg>
+  <a class="brand" href="#atlas" aria-label="Mineral Habit Matrix: atlas of all minerals">
+    <img src="icon.svg" width="24" height="24" alt="">
     <span>Habit&nbsp;Matrix</span>
   </a>
-  <div class="tabs" id="tabs" role="tablist" aria-label="Mineral"></div>
+  <div class="navlinks">
+    <a class="navlink" id="atlas-link" href="#atlas">Atlas</a>
+    <button class="navlink menu-btn" id="menu-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="mineral-menu">
+      <span id="menu-current">Minerals</span><svg viewBox="0 0 12 12" width="10" height="10" aria-hidden="true"><path d="M2 4l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+    <div class="tabs" id="tabs" role="tablist" aria-label="Minerals in this group"></div>
+  </div>
   <a class="learn-tab" id="learn-tab" href="#learn">
     <svg viewBox="0 0 20 20" width="15" height="15" aria-hidden="true"><path d="M10 2 1 6.5 10 11l9-4.5zM4 9v4.2C4 15 7 17 10 17s6-2 6-3.8V9l-6 3z" fill="currentColor"/></svg>
-    Learn
+    <span class="lt">Learn</span>
   </a>
   <button class="icon-btn" id="theme-btn" type="button" aria-label="Toggle colour theme" title="Theme: auto"></button>
 </nav>
+<div class="menu glass" id="mineral-menu" hidden role="menu" aria-label="All minerals">
+  <input class="menu-search" id="menu-search" type="search" placeholder="Find a mineral…" aria-label="Find a mineral">
+  <div class="menu-groups" id="menu-groups"></div>
+</div>
+
+<!-- ===================================================== atlas page -->
+<main id="page-atlas" class="page" hidden>
+  <header class="hero">
+    <h1>Mineral Habit Atlas</h1>
+    <p class="lede">These are idealized 3D crystal habits of rock-forming, accessory and ore minerals. Each one is built from the mineral's lattice, its face forms and their relative development, and checked against classical interfacial angles. Open a mineral to see its habit matrix, or go to <a href="#learn">Learn</a> to watch any crystal being built step by step.</p>
+  </header>
+  <div class="glass picker atlas-tools">
+    <label>Search <input id="atlas-search" type="search" placeholder="quartz, (U–Th)/He, monoclinic…"></label>
+    <span class="muted" id="atlas-count"></span>
+  </div>
+  <div class="atlas-stage" id="atlas-stage">
+    <div id="atlas-groups"></div>
+  </div>
+</main>
 
 <!-- ===================================================== matrix page -->
 <main id="page-matrix" class="page">
@@ -66,6 +91,7 @@
         <div class="matrix" id="matrix"></div>
       </div>
     </div>
+    <p class="hint">Swipe sideways for more columns · tap any crystal to inspect it</p>
     <p id="m-note" class="note"></p>
   </section>
 
@@ -82,8 +108,22 @@
 <main id="page-learn" class="page" hidden>
   <header class="hero">
     <h1>How a crystal habit is built</h1>
-    <p class="lede">Every crystal on this site comes from the same six steps: lattice, face normals, symmetry, half-space cuts, relative development and normalization. Pick any crystal and walk through the steps. In step 5 you can drag the sliders and watch the habit change.</p>
+    <p class="lede">Start with <a href="#learn" onclick="document.getElementById('why').scrollIntoView({behavior:'smooth'});return false;">why one mineral grows in so many shapes</a>. Then see how every crystal on this site comes from the same six steps: lattice, face normals, symmetry, half-space cuts, relative development and normalization. Pick any crystal and walk through the steps. In step 5 you can drag the sliders and watch the habit change.</p>
   </header>
+  <section class="glass panel prose why" id="why" aria-labelledby="why-title">
+    <h2 id="why-title">Why can one mineral grow in so many shapes?</h2>
+    <p>Atoms set the angles, but growth sets the shape. Every crystal on this site follows from the same few ideas:</p>
+    <ol class="why-list">
+      <li><strong>The atoms fix the angles.</strong> A crystal is a repeating 3D pattern of atoms, like wallpaper in three dimensions. Flat faces form only along the densest planes of that pattern, so the angles between faces are fixed. Every zircon on Earth has the same angles (Steno's law, 1669).</li>
+      <li><strong>Each kind of face is a wall at its own distance.</strong> A face's distance from the centre depends on how fast it grows. Surprisingly, the <em>fast</em> faces race ahead and grow themselves out of existence. The <em>slow</em> faces survive and become the big ones.</li>
+      <li><strong>The surroundings change the speeds.</strong> Temperature, cooling rate, supersaturation, water, and trace elements that stick to particular faces all speed some faces up and slow others down. Change the conditions and different faces win: more {100} in hotter zircon (Pupin), needle-shaped apatite when a melt is quenched, dodecahedral magnetite in reducing fluids.</li>
+      <li><strong>Symmetry copies every choice.</strong> Setting one {101} face of zircon sets all eight at once, so a mineral has only a few independent "knobs", one per kind of face. Each knob turns smoothly, though, and a few smooth knobs already give endless combinations. Each grid on this site turns two knobs in steps.</li>
+      <li><strong>Faces switch on and off at tipping points.</strong> Push a face outward and it shrinks until it suddenly vanishes. Pull it in and it can swallow its neighbours. That is how an octahedron turns into a dodecahedron with no change to the atoms.</li>
+      <li><strong>Stretching keeps the angles.</strong> Elongation and flattening turn the same faces into needles, stubby prisms or plates. Every angle stays the same; only the proportions change.</li>
+      <li><strong>Lower symmetry means more knobs.</strong> A cubic garnet has a few kinds of faces. A triclinic plagioclase has no symmetry linking its faces beyond inversion, so nearly every pair of faces is its own knob, and the variety grows.</li>
+    </ol>
+    <p class="muted">Shape matters in geochronology: it sets the α-ejection correction in (U–Th)/He dating, the diffusion domain in Ar and Pb closure, the magnetic domain state of magnetite, and what you see in a thin section. Not shown here: twins, curved and skeletal faces, rounding during transport, and zoning.</p>
+  </section>
   <div class="glass picker">
     <label>Mineral <select id="learn-mineral"></select></label>
     <label>Crystal <select id="learn-cell"></select></label>
@@ -120,6 +160,7 @@
 
 <!-- ===================================================== inspector -->
 <aside class="sheet glass" id="sheet" aria-label="Crystal inspector" hidden>
+  <div class="grabber" aria-hidden="true"></div>
   <header class="sheet-head">
     <div>
       <p class="eyebrow" id="s-mineral"></p>

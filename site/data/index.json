@@ -2,78 +2,452 @@
  {
   "id": "zircon",
   "name": "Zircon",
+  "group": "Accessory chronometers",
   "file": "zircon.json",
   "ncells": 64,
-  "chronometers": "U–Pb, (U–Th)/He, fission track, Lu–Hf, Ti-in-zircon"
+  "formula": "ZrSiO₄",
+  "chronometers": "U–Pb, (U–Th)/He, fission track, Lu–Hf, Ti-in-zircon",
+  "system": "Tetragonal",
+  "matrix_title": "Pupin (1980) typology grid"
  },
  {
   "id": "xenotime",
   "name": "Xenotime",
+  "group": "Accessory chronometers",
   "file": "xenotime.json",
   "ncells": 12,
-  "chronometers": "U–Th–Pb, diagenetic/hydrothermal dating, monazite–xenotime thermometry"
+  "formula": "YPO₄",
+  "chronometers": "U–Th–Pb, diagenetic/hydrothermal dating, monazite–xenotime thermometry",
+  "system": "Tetragonal",
+  "matrix_title": "Dipyramid → prism"
  },
  {
   "id": "apatite",
   "name": "Apatite",
+  "group": "Accessory chronometers",
   "file": "apatite.json",
   "ncells": 20,
-  "chronometers": "(U–Th)/He, fission track, U–Pb, Sm–Nd"
+  "formula": "Ca₅(PO₄)₃(F,Cl,OH)",
+  "chronometers": "(U–Th)/He, fission track, U–Pb, Sm–Nd",
+  "system": "Hexagonal",
+  "matrix_title": "Termination × elongation"
  },
  {
   "id": "monazite",
   "name": "Monazite",
+  "group": "Accessory chronometers",
   "file": "monazite.json",
   "ncells": 16,
-  "chronometers": "U–Th–Pb (EPMA, LA-ICP-MS, SIMS), (U–Th)/He"
+  "formula": "(Ce,La,Nd,Th)PO₄",
+  "chronometers": "U–Th–Pb (EPMA, LA-ICP-MS, SIMS), (U–Th)/He",
+  "system": "Monoclinic",
+  "matrix_title": "Tabular on {100} × elongation along b"
  },
  {
   "id": "titanite",
   "name": "Titanite",
+  "group": "Accessory chronometers",
   "file": "titanite.json",
   "ncells": 16,
-  "chronometers": "U–Pb, (U–Th)/He, Zr-in-titanite thermometry"
+  "formula": "CaTiSiO₅",
+  "chronometers": "U–Pb, (U–Th)/He, Zr-in-titanite thermometry",
+  "system": "Monoclinic",
+  "matrix_title": "Envelope → prismatic → tabular"
  },
  {
   "id": "rutile",
   "name": "Rutile",
+  "group": "Accessory chronometers",
   "file": "rutile.json",
   "ncells": 16,
-  "chronometers": "U–Pb, Zr-in-rutile thermometry, (U–Th)/He"
+  "formula": "TiO₂",
+  "chronometers": "U–Pb, Zr-in-rutile thermometry, (U–Th)/He",
+  "system": "Tetragonal",
+  "matrix_title": "Prism × termination grid"
+ },
+ {
+  "id": "quartz",
+  "name": "Quartz",
+  "group": "Framework silicates",
+  "file": "quartz.json",
+  "ncells": 25,
+  "formula": "SiO₂",
+  "chronometers": "Ti-in-quartz thermometry; OSL/ESR dating; cosmogenic nuclides",
+  "system": "Trigonal",
+  "matrix_title": "Prism length × rhombohedron balance"
+ },
+ {
+  "id": "k-feldspar",
+  "name": "K-feldspar",
+  "group": "Framework silicates",
+  "file": "k-feldspar.json",
+  "ncells": 25,
+  "formula": "KAlSi₃O₈",
+  "chronometers": "⁴⁰Ar/³⁹Ar multi-diffusion-domain (MDD) thermochronology; Pb isotopes",
+  "system": "Monoclinic",
+  "matrix_title": "Flattening on (010) × elongation axis"
+ },
+ {
+  "id": "plagioclase",
+  "name": "Plagioclase",
+  "group": "Framework silicates",
+  "file": "plagioclase.json",
+  "ncells": 20,
+  "formula": "NaAlSi₃O₈ – CaAl₂Si₂O₈",
+  "chronometers": "Diffusion chronometry (Mg, Sr); crystal size distributions; ⁴⁰Ar/³⁹Ar",
+  "system": "Triclinic",
+  "matrix_title": "(010) tabularity × elongation along [100]"
+ },
+ {
+  "id": "nepheline",
+  "name": "Nepheline",
+  "group": "Framework silicates",
+  "file": "nepheline.json",
+  "ncells": 20,
+  "formula": "(Na,K)AlSiO₄",
+  "chronometers": "Composition as a crystallization thermometer",
+  "system": "Hexagonal",
+  "matrix_title": "Prism length × prism modification"
+ },
+ {
+  "id": "leucite",
+  "name": "Leucite",
+  "group": "Framework silicates",
+  "file": "leucite.json",
+  "ncells": 16,
+  "formula": "KAlSi₂O₆",
+  "chronometers": "⁴⁰Ar/³⁹Ar (K-rich volcanic rocks); crystal size distributions",
+  "system": "Tetragonal (pseudocubic)",
+  "matrix_title": "Icositetrahedron with cube and dodecahedron"
+ },
+ {
+  "id": "sodalite",
+  "name": "Sodalite",
+  "group": "Framework silicates",
+  "file": "sodalite.json",
+  "ncells": 16,
+  "formula": "Na₈(Al₆Si₆O₂₄)Cl₂",
+  "chronometers": "—",
+  "system": "Cubic",
+  "matrix_title": "Dodecahedron with cube and tetrahedron"
+ },
+ {
+  "id": "olivine",
+  "name": "Olivine",
+  "group": "Orthosilicates",
+  "file": "olivine.json",
+  "ncells": 20,
+  "formula": "(Mg,Fe)₂SiO₄",
+  "chronometers": "Fe–Mg, Ni, Ca diffusion chronometry (magma timescales)",
+  "system": "Orthorhombic",
+  "matrix_title": "Tabular ↔ elongate × form complexity"
  },
  {
   "id": "garnet",
   "name": "Garnet",
+  "group": "Orthosilicates",
   "file": "garnet.json",
   "ncells": 15,
-  "chronometers": "Sm–Nd, Lu–Hf, U–Pb, diffusion speedometry"
+  "formula": "X₃Y₂(SiO₄)₃",
+  "chronometers": "Sm–Nd, Lu–Hf, U–Pb, diffusion speedometry",
+  "system": "Cubic",
+  "matrix_title": "Dodecahedron ↔ trapezohedron"
+ },
+ {
+  "id": "kyanite",
+  "name": "Kyanite",
+  "group": "Orthosilicates",
+  "file": "kyanite.json",
+  "ncells": 16,
+  "formula": "Al₂SiO₅",
+  "chronometers": "Al₂SiO₅ polymorph thermobarometry; inclusion barometry",
+  "system": "Triclinic",
+  "matrix_title": "Blade elongation × flattening on (100)"
+ },
+ {
+  "id": "andalusite",
+  "name": "Andalusite",
+  "group": "Orthosilicates",
+  "file": "andalusite.json",
+  "ncells": 16,
+  "formula": "Al₂SiO₅",
+  "chronometers": "Al₂SiO₅ polymorph thermobarometry (contact aureoles)",
+  "system": "Orthorhombic",
+  "matrix_title": "Termination × elongation"
+ },
+ {
+  "id": "sillimanite",
+  "name": "Sillimanite",
+  "group": "Orthosilicates",
+  "file": "sillimanite.json",
+  "ncells": 16,
+  "formula": "Al₂SiO₅",
+  "chronometers": "Al₂SiO₅ polymorph thermobarometry",
+  "system": "Orthorhombic",
+  "matrix_title": "Prism zone × elongation"
+ },
+ {
+  "id": "staurolite",
+  "name": "Staurolite",
+  "group": "Orthosilicates",
+  "file": "staurolite.json",
+  "ncells": 16,
+  "formula": "Fe₂Al₉Si₄O₂₃(OH)",
+  "chronometers": "Metapelite thermobarometry (index mineral)",
+  "system": "Monoclinic (pseudo-orthorhombic)",
+  "matrix_title": "Prism section × elongation"
+ },
+ {
+  "id": "epidote",
+  "name": "Epidote",
+  "group": "Sorosilicates",
+  "file": "epidote.json",
+  "ncells": 16,
+  "formula": "Ca₂Al₂Fe³⁺(Si₂O₇)(SiO₄)O(OH)",
+  "chronometers": "U–Pb (hydrothermal veins); Sr, Pb isotopes",
+  "system": "Monoclinic",
+  "matrix_title": "Prism zone × elongation along b"
+ },
+ {
+  "id": "zoisite",
+  "name": "Zoisite",
+  "group": "Sorosilicates",
+  "file": "zoisite.json",
+  "ncells": 9,
+  "formula": "Ca₂Al₃(Si₂O₇)(SiO₄)O(OH)",
+  "chronometers": "Sr–Pb isotopes; HP metamorphism (eclogite) petrology",
+  "system": "Orthorhombic",
+  "matrix_title": "Prism zone × elongation along b"
+ },
+ {
+  "id": "vesuvianite",
+  "name": "Vesuvianite",
+  "group": "Sorosilicates",
+  "file": "vesuvianite.json",
+  "ncells": 15,
+  "formula": "Ca₁₉(Al,Mg,Fe)₁₃(SiO₄)₁₀(Si₂O₇)₄(OH,F,O)₁₀",
+  "chronometers": "Skarn and rodingite petrology",
+  "system": "Tetragonal",
+  "matrix_title": "Prism length × termination"
+ },
+ {
+  "id": "tourmaline",
+  "name": "Tourmaline",
+  "group": "Ring silicates",
+  "file": "tourmaline.json",
+  "ncells": 16,
+  "formula": "Na(Fe,Mg)₃Al₆(Si₆O₁₈)(BO₃)₃(OH)₃(OH,F)",
+  "chronometers": "B-isotope and sector-zoning thermometry; provenance",
+  "system": "Trigonal",
+  "matrix_title": "Prism section × elongation (hemimorphic)"
+ },
+ {
+  "id": "cordierite",
+  "name": "Cordierite",
+  "group": "Ring silicates",
+  "file": "cordierite.json",
+  "ncells": 16,
+  "formula": "(Mg,Fe)₂Al₄Si₅O₁₈·n(H₂O,CO₂)",
+  "chronometers": "Channel H₂O/CO₂ as a fluid record; low-P metamorphic thermobarometry",
+  "system": "Orthorhombic (pseudo-hexagonal)",
+  "matrix_title": "Pseudo-hexagonal prism × elongation"
+ },
+ {
+  "id": "orthopyroxene",
+  "name": "Orthopyroxene",
+  "group": "Chain silicates",
+  "file": "orthopyroxene.json",
+  "ncells": 20,
+  "formula": "(Mg,Fe)₂Si₂O₆",
+  "chronometers": "Fe–Mg diffusion chronometry; two-pyroxene thermometry",
+  "system": "Orthorhombic",
+  "matrix_title": "Prism cross-section × elongation"
+ },
+ {
+  "id": "clinopyroxene",
+  "name": "Clinopyroxene",
+  "group": "Chain silicates",
+  "file": "clinopyroxene.json",
+  "ncells": 16,
+  "formula": "Ca(Mg,Fe)Si₂O₆ (diopside–augite)",
+  "chronometers": "Fe–Mg diffusion chronometry; sector-zoning records of ascent",
+  "system": "Monoclinic",
+  "matrix_title": "Prism cross-section × elongation"
  },
  {
   "id": "amphibole",
   "name": "Amphibole",
+  "group": "Chain silicates",
   "file": "amphibole.json",
   "ncells": 16,
-  "chronometers": "⁴⁰Ar/³⁹Ar, K–Ar"
+  "formula": "Ca₂(Mg,Fe)₄Al(Si₇Al)O₂₂(OH)₂",
+  "chronometers": "⁴⁰Ar/³⁹Ar, K–Ar",
+  "system": "Monoclinic",
+  "matrix_title": "Prism cross-section × elongation"
  },
  {
   "id": "mica",
-  "name": "Mica",
+  "name": "Biotite",
+  "group": "Sheet silicates",
   "file": "mica.json",
   "ncells": 16,
-  "chronometers": "⁴⁰Ar/³⁹Ar, K–Ar, Rb–Sr"
+  "formula": "K(Mg,Fe)₃AlSi₃O₁₀(OH)₂",
+  "chronometers": "⁴⁰Ar/³⁹Ar, K–Ar, Rb–Sr",
+  "system": "Monoclinic",
+  "matrix_title": "Plate outline × thickness"
+ },
+ {
+  "id": "muscovite",
+  "name": "Muscovite",
+  "group": "Sheet silicates",
+  "file": "muscovite.json",
+  "ncells": 16,
+  "formula": "KAl₂(AlSi₃O₁₀)(OH)₂",
+  "chronometers": "⁴⁰Ar/³⁹Ar, K–Ar, Rb–Sr",
+  "system": "Monoclinic",
+  "matrix_title": "Plate outline × thickness"
+ },
+ {
+  "id": "calcite",
+  "name": "Calcite",
+  "group": "Carbonates",
+  "file": "calcite.json",
+  "ncells": 20,
+  "formula": "CaCO₃",
+  "chronometers": "U–Pb carbonate dating; clumped isotopes; δ¹⁸O, δ¹³C",
+  "system": "Trigonal",
+  "matrix_title": "Prism length × termination"
+ },
+ {
+  "id": "dolomite",
+  "name": "Dolomite",
+  "group": "Carbonates",
+  "file": "dolomite.json",
+  "ncells": 12,
+  "formula": "CaMg(CO₃)₂",
+  "chronometers": "U–Pb carbonate dating; clumped isotopes; diagenetic thermometry",
+  "system": "Trigonal",
+  "matrix_title": "Basal development × rhombohedron"
+ },
+ {
+  "id": "aragonite",
+  "name": "Aragonite",
+  "group": "Carbonates",
+  "file": "aragonite.json",
+  "ncells": 16,
+  "formula": "CaCO₃",
+  "chronometers": "U-series dating (corals, speleothems); δ¹⁸O, Sr/Ca, clumped isotopes",
+  "system": "Orthorhombic",
+  "matrix_title": "Prism length × termination"
+ },
+ {
+  "id": "gypsum",
+  "name": "Gypsum",
+  "group": "Sulfates",
+  "file": "gypsum.json",
+  "ncells": 16,
+  "formula": "CaSO₄·2H₂O",
+  "chronometers": "Sr, S and O isotopes of evaporites; fluid inclusions",
+  "system": "Monoclinic",
+  "matrix_title": "Elongation × termination"
+ },
+ {
+  "id": "anhydrite",
+  "name": "Anhydrite",
+  "group": "Sulfates",
+  "file": "anhydrite.json",
+  "ncells": 9,
+  "formula": "CaSO₄",
+  "chronometers": "Sr and S isotopes (seawater–hydrothermal mixing)",
+  "system": "Orthorhombic",
+  "matrix_title": "Elongation along a × tabularity on (010)"
+ },
+ {
+  "id": "barite",
+  "name": "Barite",
+  "group": "Sulfates",
+  "file": "barite.json",
+  "ncells": 16,
+  "formula": "BaSO₄",
+  "chronometers": "Marine barite Sr and S isotopes; export-productivity proxy",
+  "system": "Orthorhombic",
+  "matrix_title": "(001) tabularity × tablet outline"
+ },
+ {
+  "id": "halite",
+  "name": "Halite",
+  "group": "Halides",
+  "file": "halite.json",
+  "ncells": 15,
+  "formula": "NaCl",
+  "chronometers": "Fluid-inclusion paleothermometry; evaporite Br/Cl",
+  "system": "Cubic",
+  "matrix_title": "Cube ↔ octahedron × dodecahedron"
+ },
+ {
+  "id": "fluorite",
+  "name": "Fluorite",
+  "group": "Halides",
+  "file": "fluorite.json",
+  "ncells": 20,
+  "formula": "CaF₂",
+  "chronometers": "Sm–Nd dating of mineralization; REE fluid tracer",
+  "system": "Cubic",
+  "matrix_title": "Cube ↔ octahedron × modifier"
  },
  {
   "id": "magnetite",
   "name": "Magnetite",
+  "group": "Oxides",
   "file": "magnetite.json",
   "ncells": 15,
-  "chronometers": "(U–Th)/He; remanence carrier in paleomagnetism"
+  "formula": "Fe₃O₄",
+  "chronometers": "(U–Th)/He; remanence carrier in paleomagnetism",
+  "system": "Cubic",
+  "matrix_title": "Octahedron ↔ dodecahedron"
  },
  {
   "id": "hematite",
   "name": "Hematite",
+  "group": "Oxides",
   "file": "hematite.json",
   "ncells": 12,
-  "chronometers": "(U–Th)/He, (U–Th)/Ne; remanence carrier in paleomagnetism"
+  "formula": "α-Fe₂O₃",
+  "chronometers": "(U–Th)/He, (U–Th)/Ne; remanence carrier in paleomagnetism",
+  "system": "Trigonal",
+  "matrix_title": "Rhombohedral → specular plates"
+ },
+ {
+  "id": "spinel",
+  "name": "Spinel / chromite",
+  "group": "Oxides",
+  "file": "spinel.json",
+  "ncells": 12,
+  "formula": "MgAl₂O₄ – FeCr₂O₄",
+  "chronometers": "Cr# as a melting and tectonic-setting indicator",
+  "system": "Cubic",
+  "matrix_title": "Octahedron with dodecahedron and cube"
+ },
+ {
+  "id": "ilmenite",
+  "name": "Ilmenite",
+  "group": "Oxides",
+  "file": "ilmenite.json",
+  "ncells": 16,
+  "formula": "FeTiO₃",
+  "chronometers": "Fe–Ti two-oxide thermometry and oxybarometry; remanence (hemo-ilmenite)",
+  "system": "Trigonal",
+  "matrix_title": "Tabularity × lateral forms"
+ },
+ {
+  "id": "pyrite",
+  "name": "Pyrite",
+  "group": "Sulfides",
+  "file": "pyrite.json",
+  "ncells": 20,
+  "formula": "FeS₂",
+  "chronometers": "Re–Os dating; trace-element (Au, As) zoning; S isotopes",
+  "system": "Cubic",
+  "matrix_title": "Cube ↔ octahedron × pyritohedron"
  }
 ]

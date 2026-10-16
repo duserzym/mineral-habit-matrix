@@ -41,7 +41,7 @@ def spec() -> dict:
                 "default": (i, j) == (2, 0), "distances": d, "t": 0.0,
             })
     return {
-        "id": ID, "name": "Garnet", "crystal": gt, "formula": "X₃Y₂(SiO₄)₃",
+        "id": ID, "name": "Garnet", "group": "Orthosilicates", "crystal": gt, "formula": "X₃Y₂(SiO₄)₃",
         "chronometers": "Sm–Nd, Lu–Hf, U–Pb, diffusion speedometry",
         "system": "Cubic", "setting": "Ia3̄d (almandine)",
         "lattice_source": "Handbook of Mineralogy (almandine); Novak &amp; Gibbs (1971)",

@@ -93,7 +93,7 @@ def spec() -> dict:
                 "distances": d, "t": t,
             })
     return {
-        "id": ID, "name": "Zircon", "crystal": zr, "formula": "ZrSiO₄",
+        "id": ID, "name": "Zircon", "group": "Accessory chronometers", "crystal": zr, "formula": "ZrSiO₄",
         "chronometers": "U–Pb, (U–Th)/He, fission track, Lu–Hf, Ti-in-zircon",
         "system": "Tetragonal", "setting": "I4₁/amd (structural cell; Pupin's indices)",
         "lattice_source": "Robinson et al. (1971)",

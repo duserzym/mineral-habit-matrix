@@ -8,7 +8,9 @@ const dark = () => document.documentElement.dataset.theme === 'dark'
 
 export function makeRenderer(canvas) {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  // phones: cap the pixel ratio to keep many viewports smooth and battery-friendly
+  const coarse = matchMedia('(pointer: coarse)').matches;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, coarse ? 1.5 : 2));
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
   renderer.setClearColor(0x000000, 0);
@@ -249,6 +251,9 @@ export class GridView {
       left: Math.max(sc.left, 0) - S.left, right: Math.min(sc.right, innerWidth) - S.left,
       top: Math.max(sc.top, 0) - S.top, bottom: Math.min(sc.bottom, innerHeight) - S.top,
     };
+    // keep crystals from drawing over a sticky header column
+    const sticky = this.stickyLeft?.();
+    if (sticky) clip.left = Math.max(clip.left, sticky - S.left);
     for (const it of this.items) {
       const r = it.el.getBoundingClientRect();
       const box = { left: r.left - S.left, right: r.right - S.left, top: r.top - S.top, bottom: r.bottom - S.top };
@@ -264,7 +269,7 @@ export class GridView {
       const a = w / h;
       Object.assign(this.camera, { left: -s * a, right: s * a, top: s, bottom: -s });
       this.camera.updateProjectionMatrix();
-      it.obj.quaternion.copy(this.q);
+      if (!it.q) it.obj.quaternion.copy(this.q); // items with their own orientation keep it
       it.obj.visible = true;
       R.render(this.scene, this.camera);
       it.obj.visible = false;
