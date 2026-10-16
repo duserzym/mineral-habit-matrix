@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mineral Habit Matrix</title>
+<meta name="description" content="Grids of idealized 3D crystal habits for zircon (Pupin 1980 typology) and other petrochronometer and thermochronometer minerals, with STL and STEP downloads.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 24 9v14l-8 7-8-7V9z' fill='%23b4652d'/%3E%3Cpath d='M16 2 24 9 16 12 8 9z' fill='%23e3a36f'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<canvas id="gl" aria-hidden="true"></canvas>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="eyebrow">Crystal morphology for petrochronology &amp; thermochronology</p>
+    <h1>Mineral Habit Matrix</h1>
+    <p class="lede">These are idealized convex crystal habits. Each one is built from the mineral's lattice parameters, Miller-index face forms and the relative development of each form. Zircon follows the Pupin (1980) typology grid. The other minerals are laid out on habit matrices taken from the morphology and grain-geometry literature. Drag any crystal to rotate the whole grid, and click one to inspect it and download STL or STEP files.</p>
+  </div>
+</header>
+
+<nav class="tabs wrap" id="tabs" aria-label="Mineral"></nav>
+
+<main class="wrap layout">
+  <section class="matrix-panel">
+    <div class="matrix-head">
+      <div>
+        <h2 id="m-title"></h2>
+        <p id="m-sub" class="muted"></p>
+      </div>
+      <div class="controls">
+        <label class="switch"><input type="checkbox" id="opt-rotate" checked> Spin</label>
+        <label class="switch"><input type="checkbox" id="opt-edges" checked> Edges</label>
+        <label class="seg">
+          <span>Scale</span>
+          <select id="opt-scale">
+            <option value="fit">Fit each cell</option>
+            <option value="volume">Equal volume</option>
+          </select>
+        </label>
+        <label class="seg">
+          <span>Color</span>
+          <select id="opt-color">
+            <option value="form">By form</option>
+            <option value="mono">Single</option>
+          </select>
+        </label>
+        <button id="opt-reset" class="btn ghost" type="button">Reset view</button>
+      </div>
+    </div>
+    <div class="matrix-scroll" id="matrix-scroll">
+      <div class="matrix" id="matrix"></div>
+    </div>
+    <p id="m-note" class="note"></p>
+  </section>
+
+  <aside class="side">
+    <div class="card detail">
+      <div class="detail-head">
+        <h3 id="d-title">Select a crystal</h3>
+        <p id="d-sub" class="muted"></p>
+      </div>
+      <div id="detail-view" class="detail-view" aria-label="3D view of the selected crystal (drag to orbit, scroll to zoom)"></div>
+      <dl id="d-metrics" class="metrics"></dl>
+      <div id="d-files" class="files"></div>
+    </div>
+    <div class="card">
+      <h3>Forms</h3>
+      <ul id="legend" class="legend"></ul>
+      <dl id="lattice" class="metrics small"></dl>
+    </div>
+  </aside>
+</main>
+
+<section class="wrap prose" id="about-mineral"></section>
+
+<section class="wrap prose">
+  <h2>Literature</h2>
+  <ol id="refs" class="refs"></ol>
+</section>
+
+<section class="wrap prose methods" id="methods">
+  <h2>How the geometries are built</h2>
+  <ol>
+    <li><strong>Lattice to face normals.</strong> Each face normal comes from the reciprocal lattice, <code>n<sub>hkl</sub> = h a* + k b* + l c*</code>. The real cell geometry therefore sets the angles between faces, for example the zircon {101}∧{211} angles from c/a, or the titanite wedge from β. Hexagonal minerals use Miller–Bravais <code>(hkil)</code> indices.</li>
+    <li><strong>Point-group symmetry.</strong> Each form {hkl} is expanded to all of its symmetry-equivalent faces with the mineral's point group (4/mmm, 6/m, m3̄m, 2/m, …). Every face of a form sits at the same central distance from the crystal centre.</li>
+    <li><strong>Half-space intersection.</strong> The crystal is the convex polyhedron <code>n·x ≤ d</code> over all faces, which is the Gibbs–Wulff construction. A face whose plane misses the solid is absent from the habit.</li>
+    <li><strong>Relative development to distances.</strong> Typologies describe how strongly each face is developed, not the face distances themselves. A prism ratio such as {100}:{110} is converted to the fraction of the cross-section perimeter taken by each form. A termination ratio such as {101}:{211} is converted to the fraction of termination face area. Each distance is solved by bisection. Elongation is a rigid translation of the two terminations along the c-axis, so it does not change the termination shape.</li>
+    <li><strong>Normalization and export.</strong> Every crystal is scaled to unit volume (1 mm³) because grain size is outside the scope of this site. Each crystal is written as a binary STL mesh and as an exact planar B-rep STEP file (AP214) whose faces are labelled with their Miller indices.</li>
+  </ol>
+  <p class="muted">These shapes are idealized. Real grains have rounded edges, are broken or abraded, carry growth zoning and are often mounted in random orientations. The habit matrices sample morphology space as it is described in the cited studies. They are not a fit to any particular sample.</p>
+</section>
+
+<footer class="wrap foot">
+  <p>Source, generator and all STL/STEP files: <a id="repo-link" href="https://github.com/duserzym/mineral-habit-matrix">github.com/duserzym/mineral-habit-matrix</a>. Rendering uses <a href="https://threejs.org">three.js</a>.</p>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

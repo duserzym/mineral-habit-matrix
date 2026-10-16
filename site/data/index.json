@@ -1,0 +1,65 @@
+[
+ {
+  "id": "zircon",
+  "name": "Zircon",
+  "file": "zircon.json",
+  "ncells": 64,
+  "chronometers": "U–Pb, (U–Th)/He, fission track, Lu–Hf, Ti-in-zircon"
+ },
+ {
+  "id": "xenotime",
+  "name": "Xenotime",
+  "file": "xenotime.json",
+  "ncells": 12,
+  "chronometers": "U–Th–Pb, diagenetic/hydrothermal dating, monazite–xenotime thermometry"
+ },
+ {
+  "id": "apatite",
+  "name": "Apatite",
+  "file": "apatite.json",
+  "ncells": 20,
+  "chronometers": "(U–Th)/He, fission track, U–Pb, Sm–Nd"
+ },
+ {
+  "id": "monazite",
+  "name": "Monazite",
+  "file": "monazite.json",
+  "ncells": 16,
+  "chronometers": "U–Th–Pb (EPMA, LA-ICP-MS, SIMS), (U–Th)/He"
+ },
+ {
+  "id": "titanite",
+  "name": "Titanite",
+  "file": "titanite.json",
+  "ncells": 16,
+  "chronometers": "U–Pb, (U–Th)/He, Zr-in-titanite thermometry"
+ },
+ {
+  "id": "rutile",
+  "name": "Rutile",
+  "file": "rutile.json",
+  "ncells": 16,
+  "chronometers": "U–Pb, Zr-in-rutile thermometry, (U–Th)/He"
+ },
+ {
+  "id": "garnet",
+  "name": "Garnet",
+  "file": "garnet.json",
+  "ncells": 15,
+  "chronometers": "Sm–Nd, Lu–Hf, U–Pb, diffusion speedometry"
+ },
+ {
+  "id": "amphibole",
+  "name": "Amphibole",
+  "file": "amphibole.json",
+  "ncells": 16,
+  "chronometers": "⁴⁰Ar/³⁹Ar, K–Ar"
+ },
+ {
+  "id": "mica",
+  "name": "Mica",
+  "file": "mica.json",
+  "ncells": 16,
+  "chronometers": "⁴⁰Ar/³⁹Ar, K–Ar, Rb–Sr"
+ }
+]
