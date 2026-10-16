@@ -61,5 +61,19 @@
   "file": "mica.json",
   "ncells": 16,
   "chronometers": "⁴⁰Ar/³⁹Ar, K–Ar, Rb–Sr"
+ },
+ {
+  "id": "magnetite",
+  "name": "Magnetite",
+  "file": "magnetite.json",
+  "ncells": 15,
+  "chronometers": "(U–Th)/He; remanence carrier in paleomagnetism"
+ },
+ {
+  "id": "hematite",
+  "name": "Hematite",
+  "file": "hematite.json",
+  "ncells": 12,
+  "chronometers": "(U–Th)/He, (U–Th)/Ne; remanence carrier in paleomagnetism"
  }
 ]

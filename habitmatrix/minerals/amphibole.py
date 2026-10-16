@@ -39,7 +39,7 @@ def spec() -> dict:
         for j, fs in enumerate(SIDE):
             d, t = prism_then_cap(am, base, ("110", "010", 1 - fs), None, asp)
             cells.append({
-                "id": f"A{asp:g}_S{j + 1}", "row": i, "col": j, "label": f"S{j + 1}", "sub": f"{asp:g}:1",
+                "id": f"A{asp:g}_S{j + 1}", "row": i, "col": j, "label": f"L{i + 1}·S{j + 1}", "sub": f"{asp:g}:1",
                 "description": f"Prism: {frac_text('{110}', '{010}', 1 - fs)}. Aspect ratio {asp:g}:1 along c.",
                 "default": (i, j) == (1, 2), "distances": d, "t": t,
             })
@@ -53,7 +53,7 @@ def spec() -> dict:
             "title": "Prism cross-section × elongation",
             "subtitle": "The prism is the {110} cleavage prism plus the side pinacoid {010}, with {011} and {1̄01} terminations. Rows run from stubby to acicular habits.",
             "row_title": "Aspect ratio (L/W)", "col_title": "Prism cross-section",
-            "rows": [{"label": f"{a:g}", "detail": ""} for a in ASPECTS],
+            "rows": [{"label": f"L{i + 1}", "detail": f"{a:g}:1"} for i, a in enumerate(ASPECTS)],
             "cols": [{"label": f"S{j + 1}", "detail": frac_text("{110}", "{010}", 1 - f)} for j, f in enumerate(SIDE)],
             "note": "",
         },

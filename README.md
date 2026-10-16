@@ -6,6 +6,29 @@ This repo generates grids ("habit matrices") of idealized 3D crystal geometries 
 thermochronometer minerals. Zircon follows the Pupin (1980) typology. The other minerals use habit
 series taken from the morphology and grain-geometry literature that is cited on the site.
 
+| Mineral | Matrix | Cells | Chronometers |
+|---|---|---|---|
+| Zircon | Pupin (1980) typology, I.A × I.T (64 subtypes) | 64 | U–Pb, (U–Th)/He, FT, Lu–Hf |
+| Xenotime | {100}/{110} prism × elongation, {101} dipyramid | 12 | U–Th–Pb |
+| Apatite | termination ({0001} ↔ {10-11}) × elongation | 20 | (U–Th)/He, FT, U–Pb |
+| Monazite | {100} tabularity × elongation along b | 16 | U–Th–Pb, (U–Th)/He |
+| Titanite | envelope (n{110}+c{001}) → m{-111} prismatic × {001} tabular (C2/c) | 16 | U–Pb, (U–Th)/He |
+| Rutile | Pupin-style {110}/{100} prism × {101}/{111} termination | 16 | U–Pb, Zr-in-rutile |
+| Garnet | {110} ↔ {211} × {321} modifier | 15 | Sm–Nd, Lu–Hf |
+| Amphibole | {110}/{010} prism × elongation | 16 | ⁴⁰Ar/³⁹Ar |
+| Mica | {110}/{010} plate outline × thickness | 16 | ⁴⁰Ar/³⁹Ar, Rb–Sr |
+| Magnetite | octahedron {111} ↔ dodecahedron {110} × {100}/{311} modifier | 15 | (U–Th)/He, paleomagnetism |
+| Hematite | rhombohedral → specular plates × edge forms | 12 | (U–Th)/He, paleomagnetism |
+
+Every mineral page lists its literature: typology and morphology papers, plus the grain-geometry papers
+used in α-ejection (F<sub>T</sub>) and diffusion-domain modelling. `scripts/check_dois.py` checks every DOI
+against Crossref.
+
+Click any crystal to open an inspector with an orbit view, face-area shares, metrics and downloads. The
+**Learn** tab rebuilds any crystal step by step: unit cell, reciprocal-lattice normals, symmetry, half-space
+cuts, relative development (with live sliders) and normalization. It runs on a small JavaScript half-space
+clipper (`site/geom.js`) that reproduces all of the Python-generated geometries.
+
 Every habit is built from first principles:
 
 1. **Lattice → face normals.** Each face normal comes from the reciprocal lattice, `n = h a* + k b* + l c*`, so the
@@ -31,7 +54,10 @@ habitmatrix/            Python generator (numpy + scipy only)
   build.py              builds everything
 models/stl/<mineral>/   one STL per matrix cell
 models/step/<mineral>/  one STEP per matrix cell (faces are named by their Miller index)
-site/                   static three.js viewer (deployed to GitHub Pages with models/)
+site/                   static three.js site (deployed to GitHub Pages with models/)
+  geom.js               browser half-space clipper (same construction as the generator)
+  views.js              three.js rendering: grid of scissor viewports, orbit views, arrows
+  app.js / learn.js     matrix + inspector, and the step-by-step Learn walkthrough
 scripts/serve.py        local preview server
 ```
 
@@ -61,8 +87,12 @@ write_step(zr.solid(d, t), "my_zircon.step")
 
 ## Validation
 
-FreeCAD (`Part.read`) reads every STEP file as one valid, closed solid, and the volumes and
-areas match the generator's own values. The STL files are closed 2-manifold meshes.
+```bash
+freecadcmd -c "exec(open('scripts/validate_models.py').read())"   # run from the repo root
+```
+
+FreeCAD (OpenCASCADE) reads every STEP file as one valid, closed solid of unit volume, and every STL file
+is a closed, manifold mesh of the same volume.
 
 ## Caveats
 

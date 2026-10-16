@@ -40,7 +40,7 @@ def spec() -> dict:
         for j, fs in enumerate(SIDE):
             d, t = prism_then_cap(mi, base, ("110", "010", 1 - fs), None, th)
             cells.append({
-                "id": f"T{i + 1}_S{j + 1}", "row": i, "col": j, "label": f"S{j + 1}", "sub": f"1:{1 / th:.0f}",
+                "id": f"T{i + 1}_S{j + 1}", "row": i, "col": j, "label": f"T{i + 1}·S{j + 1}", "sub": f"1:{1 / th:.0f}",
                 "description": f"Outline: {frac_text('{110}', '{010}', 1 - fs)}. Thickness:width ≈ 1:{1 / th:.1f}.",
                 "default": (i, j) == (1, 2), "distances": d, "t": t,
             })
@@ -55,7 +55,7 @@ def spec() -> dict:
             "title": "Plate outline × thickness",
             "subtitle": "Basal {001} plates bounded by {110} and {010}. Rows run from thick books to thin flakes.",
             "row_title": "Thickness : width", "col_title": "Plate outline",
-            "rows": [{"label": f"1:{1 / t:.0f}", "detail": ""} for t in THICK],
+            "rows": [{"label": f"T{i + 1}", "detail": f"1:{1 / t:.0f}"} for i, t in enumerate(THICK)],
             "cols": [{"label": f"S{j + 1}", "detail": frac_text("{110}", "{010}", 1 - f)} for j, f in enumerate(SIDE)],
             "note": "",
         },

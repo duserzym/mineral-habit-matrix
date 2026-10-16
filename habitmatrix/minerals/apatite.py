@@ -43,7 +43,7 @@ def spec() -> dict:
         for j, asp in enumerate(ASPECTS):
             d, t = prism_then_cap(ap, base, None, ("0001", "10-11", fc), asp)
             cells.append({
-                "id": f"T{i + 1}_A{asp:g}", "row": i, "col": j, "label": f"{rl}", "sub": f"{asp:g}:1",
+                "id": f"T{i + 1}_A{asp:g}", "row": i, "col": j, "label": f"T{i + 1}·{asp:g}", "sub": "",
                 "description": f"Termination: {rd}. Aspect ratio {asp:g}:1.",
                 "default": (i, j) == (2, 2), "distances": d, "t": t,
             })
@@ -57,7 +57,7 @@ def spec() -> dict:
             "title": "Termination × elongation",
             "subtitle": "Prism {10-10}. Rows run from a flat basal pinacoid to a pyramidal termination. Columns run from stubby to acicular habits.",
             "row_title": "Termination", "col_title": "Aspect ratio (L/W)",
-            "rows": [{"label": r[0], "detail": r[1]} for r in ROWS],
+            "rows": [{"label": f"T{i + 1} · {r[0]}", "detail": r[1]} for i, r in enumerate(ROWS)],
             "cols": [{"label": f"{a:g}", "detail": ""} for a in ASPECTS],
             "note": "",
         },

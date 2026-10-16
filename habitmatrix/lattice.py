@@ -111,7 +111,9 @@ _GENERATORS = {
     "4/mmm": [_rot([0, 0, 1], 90), _mirror([1, 0, 0]), -np.eye(3)],
     "6/m": [_rot([0, 0, 1], 60), -np.eye(3)],
     "6/mmm": [_rot([0, 0, 1], 60), _mirror([1, 0, 0]), -np.eye(3)],
-    "-3m": [_rot([0, 0, 1], 120), _mirror([1, 0, 0]), -np.eye(3)],
+    # -3 2/m 1 (hexagonal axes): mirrors normal to the a-axes.  In this frame a1 lies at
+    # -30° from x (c along z, b along y), so the mirror normal is (cos -30°, sin -30°, 0).
+    "-3m": [_rot([0, 0, 1], 120), _mirror([3**0.5 / 2, -0.5, 0]), -np.eye(3)],
     "m-3m": [_rot([0, 0, 1], 90), _rot([1, 1, 1], 120), -np.eye(3)],
 }
 
