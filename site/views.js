@@ -286,3 +286,71 @@ export function inCrystalFrame(...objs) {
   g.add(inner);
   return g;
 }
+
+/** Translucent discs for face planes n·x = d (crystal frame): [{n, d, color}] with disc radius r. */
+export function planeDiscs(planes, r, { opacity = 0.2 } = {}) {
+  const g = new THREE.Group();
+  if (planes.length > 6) { r *= Math.sqrt(6 / planes.length); opacity *= 0.8; } // keep many-faced forms readable
+  const disc = new THREE.CircleGeometry(r, 48);
+  const ring = new THREE.BufferGeometry().setFromPoints(
+    Array.from({ length: 65 }, (_, i) => new THREE.Vector3(r * Math.cos((i / 32) * Math.PI), r * Math.sin((i / 32) * Math.PI), 0)));
+  const Zv = new THREE.Vector3(0, 0, 1);
+  for (const p of planes) {
+    const n = new THREE.Vector3(...p.n).normalize();
+    const holder = new THREE.Group();
+    holder.quaternion.setFromUnitVectors(Zv, n);
+    holder.position.copy(n.clone().multiplyScalar(p.d));
+    const fill = new THREE.Mesh(disc, new THREE.MeshBasicMaterial({
+      color: p.color, transparent: true, opacity, depthWrite: false, side: THREE.DoubleSide,
+    }));
+    const edge = new THREE.Line(ring, new THREE.LineBasicMaterial({ color: p.color, transparent: true, opacity: Math.min(1, opacity * 3.2) }));
+    fill.userData.baseOpacity = opacity;
+    edge.userData.baseOpacity = Math.min(1, opacity * 3.2);
+    fill.renderOrder = edge.renderOrder = 5;
+    holder.add(fill, edge);
+    g.add(holder);
+  }
+  return inCrystalFrame(g);
+}
+
+/** Scale the opacity of every material under obj relative to its base opacity. */
+export function fade(obj, k) {
+  obj?.traverse((o) => {
+    if (o.material && o.userData.baseOpacity != null) o.material.opacity = o.userData.baseOpacity * k;
+  });
+}
+
+/** A symmetry element (from geom.describeOp) drawn at the crystal centre: axis, mirror plane or inversion centre. */
+export function symmetryElement(op, r) {
+  const col = dark() ? '#f5f5f7' : '#1d1d1f';
+  const g = new THREE.Group();
+  if (op.kind === 'rotation' || op.kind === 'rotoinversion') {
+    const a = new THREE.Vector3(...op.axis).normalize();
+    const geo = new THREE.BufferGeometry().setFromPoints([a.clone().multiplyScalar(-1.3 * r), a.clone().multiplyScalar(1.3 * r)]);
+    const line = new THREE.Line(geo, new THREE.LineDashedMaterial({ color: col, dashSize: 0.08 * r, gapSize: 0.05 * r, transparent: true, opacity: 0.85, depthTest: false }));
+    line.computeLineDistances();
+    line.renderOrder = 8;
+    g.add(line);
+    for (const s of [1, -1]) {
+      const sp = label(op.symbol, col, 0.2 * r);
+      sp.position.copy(a.clone().multiplyScalar(s * 1.42 * r));
+      g.add(sp);
+    }
+  } else if (op.kind === 'mirror') {
+    const n = op.normal;
+    const disc = planeDiscs([{ n, d: 0, color: dark() ? '#9fb6d8' : '#5b7db1' }], 1.35 * r, { opacity: 0.16 });
+    g.add(disc.children[0].children[0]);
+    const sp = label('m', col, 0.2 * r);
+    const t = new THREE.Vector3(...n).cross(Math.abs(n[2]) < 0.9 ? new THREE.Vector3(0, 0, 1) : new THREE.Vector3(1, 0, 0)).normalize();
+    sp.position.copy(t.multiplyScalar(1.45 * r));
+    g.add(sp);
+  } else {
+    const dot_ = new THREE.Mesh(new THREE.SphereGeometry(0.05 * r, 20, 12), new THREE.MeshBasicMaterial({ color: col, depthTest: false }));
+    dot_.renderOrder = 9;
+    g.add(dot_);
+    const sp = label('1̄  centre', col, 0.17 * r);
+    sp.position.set(0.32 * r, 0, 0.12 * r);
+    g.add(sp);
+  }
+  return inCrystalFrame(g);
+}
